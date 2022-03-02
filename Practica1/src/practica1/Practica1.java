@@ -41,6 +41,7 @@ public class Practica1 {
 
         try {
             Imagen img = new Imagen();
+            img.aplicarFiltro(6, true);
             img.mostrarImagen();
         } catch (Exception e) {
             // TODO Auto-generated catch block

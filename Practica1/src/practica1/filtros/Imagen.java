@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+//Para aplicar filtros
+import practica1.filtros.secuencial.Filtro;
 
 /**
  * Clase que crea una imagen para aplicarle filtros 
@@ -27,28 +29,27 @@ public class Imagen {
     private Color[] rgbFiltro;
     private int ancho;
     private int alto; 
-    
-    // un método para aplicar un filtro ** uno para concurrente y otro normal
-    // otro método para guardar la imagen con el filtro
+    private Filtro secuencial;
 
     public Imagen() throws Exception{
         File file= new File("/home/karla/Documentos/Concurrente/Practica1/src/practica1/filtros/secuencial/ejemplo.jpeg");
-        img = ImageIO.read(file);
-        ancho = img.getWidth();
-        alto = img.getHeight();
-        Color[] rgb = new Color[alto*ancho];
+        this.img = ImageIO.read(file);
+        this.ancho = img.getWidth();
+        this.alto = img.getHeight();
+        this.rgb = new Color[alto*ancho];
 
-        for (int y = 0; y < img.getHeight(); y++) {
-            for (int x = 0; x < img.getWidth(); x++) {
-                //Retrieving contents of a pixel
+        for (int y = 0; y < alto; y++) {
+            for (int x = 0; x < ancho; x++) {
+                //RGB del pixel
                 int pixel = img.getRGB(x,y);
                 //Objeto color de cada pixel
                 Color color = new Color(pixel, true);
                 //Obtenemos los valores R G B 
-                rgb[(ancho*y)+x] = color;
+                this.rgb[(ancho*y)+x] = color;
             }
         }
-        rgbFiltro = rgb;
+        this.rgbFiltro = rgb;
+        this.secuencial = new Filtro(rgbFiltro);
     }
 
     /**
@@ -110,5 +111,15 @@ public class Imagen {
      */
     public void reset(){
         rgbFiltro = rgb;
+    }
+
+    /**
+     * @desc Dada una opción aplica un filtro
+     * @param op número de la opción del filtro
+     * @param sec nos indica si aplicar el filtro secuencial o no
+     */
+    public void aplicarFiltro(int op, boolean sec){
+        if(sec)
+            this.secuencial.aplicarFiltro(op);
     }
 }

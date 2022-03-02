@@ -1,36 +1,103 @@
 package practica1.filtros.secuencial;
-//Modificar esto, sólo nos pasaran el rgb y devolveremos eso 
-
+import java.awt.Color;
+import java.util.function.UnaryOperator;
 
 /**
  * @class
  * Clase filtro para controlar los filtros que se le aplican a la imagen.
  */
 public class Filtro {
-    /**
-       * @desc Coloca la imagen en el canvas
-       *       Extrae la información de los pixeles
-       * @param {HTMLImageElement} img - Objeto html con la imagen
-       * @param {HTMLCanvasElement} canvas - Objeto html al cual se le
-       *                 aplicarán los filtros
+  /* RGB de la imagen 
+      [0] - r [1] - g [2] - b
+    */
+  private Color[] rgb;
+
+  /**
+    * @desc Asigna los valores RGB
+    * @param rgb  
+  */
+  public Filtro (Color[] rgbNuevo){
+    this.rgb = rgbNuevo;
+  }
+
+  /**
+     * @desc Dada una opción aplica un filtro
+     * @param op número de la opción del filtro
      */
-  /*Filter(img){
-    this.img = img;
-    this.aux = new Uint8ClampedArray(this.filtro.red);
-  }*/
+    public void aplicarFiltro(int op){
+      UnaryOperator<Color> f;
+      switch (op) {
+          //Filtros Grises
+          case 1:
+              f = (color) -> {
+                  int prom = validarRango((color.getRed() + color.getGreen() + color.getBlue()) / 3);
+                  return new Color(prom, prom, prom);
+              };
+              this.doPorPixel(f);
+              break;
+          case 2:
+              f = (color) -> {
+                  int r = validarRango(color.getRed()*.03);
+                  int g = validarRango(color.getGreen()*.59);
+                  int b = validarRango(color.getBlue()*0.11);
+                  return new Color(r, g, b);
+              };
+              this.doPorPixel(f);
+              break;
+          case 3:
+              f = (color) -> {
+                  int r = validarRango(color.getRed()*.2126);
+                  int g = validarRango(color.getGreen()*0.7152);
+                  int b = validarRango(color.getBlue()*0.0722);
+                  return new Color(r, g, b);
+              };
+              this.doPorPixel(f);
+              break;
+          case 4:
+              f = (color) -> {
+                  return new Color(color.getRed(), color.getRed(), color.getRed());
+              };
+              this.doPorPixel(f);
+              break;
+          //Alto contraste
+          case 5:
+              f = (color) -> {
+                  int r = validarRango(color.getRed()*.03);
+                  int g = validarRango(color.getGreen()*.59);
+                  int b = validarRango(color.getBlue()*0.11);
+                  int val = (r + g + b) > 127? 255: 0;
+                  return new Color(val, val, val);
+              };
+              this.doPorPixel(f);
+              break;
+          //RGB
+          case 6:
+              f = (color) -> {
+                int r = validarRango(color.getRed() & 25);
+                int g = validarRango(color.getGreen() &  25);
+                int b = validarRango(color.getBlue() &  -18);
+                return new Color(r, g, b);
+            };
+              this.doPorPixel(f);
+              break;
+          default:
+              break;
+      }
+  }
 
   /**
    * @desc Valida que el valor este ente 0 y 255
    * @return {number} valor RGB del pixel
- */
-  /* _validarRango(valor){
-    if(isNaN(valor) || valor > 255)
+  */
+  public int validarRango(double v){
+    int valor = (int) v;
+    if(valor > 255)
       valor = 255;
     else if(valor < 0)
       valor = 0;
 
     return valor;
-  } */
+  }
 
   /**
      * @desc Modifica los colores de cada pixel
@@ -38,15 +105,12 @@ public class Filtro {
      * @param {function} f - función que especifica la modificación
      *                   que se le hará a cada color del pixel
    */
-   /* doPerPixel(f){
-    for(var alfa = 0; alfa < this.red.length; alfa++){
-      let v = f(this.redOriginal[alfa], this.greenOriginal[alfa], this.blueOriginal[alfa]);
-      this.red[alfa] = this._validarRango(v[0]);
-      this.green[alfa] = this._validarRango(v[1]);
-      this.blue[alfa] = this._validarRango(v[2]);
+   public Color[] doPorPixel(UnaryOperator<Color> f){
+    for(var alfa = 0; alfa < this.rgb.length; alfa++){
+      this.rgb[alfa] = f.apply(this.rgb[alfa]);
     }
-    this._setFromRGB(this.red, this.green, this.blue);
-   } */
+    return this.rgb;
+   }
 
   /**
      * @desc Calcula el promedio del color de los pixeles
