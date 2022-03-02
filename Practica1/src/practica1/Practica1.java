@@ -1,5 +1,7 @@
 package practica1;
 
+import practica1.filtros.Imagen;
+
 public class Practica1 {
     
     public static void main(String[] args) {
@@ -36,5 +38,13 @@ public class Practica1 {
         ms = System.nanoTime() - timestamp;
         System.out.println("Resultado concurrente: \n" + c2);
         System.out.println("Tiempo transcurrido: " + ms);
+
+        try {
+            Imagen img = new Imagen();
+            img.mostrarImagen();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
