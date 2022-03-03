@@ -49,7 +49,7 @@ public class Imagen {
             }
         }
         this.rgbFiltro = rgb;
-        this.secuencial = new Filtro(rgbFiltro);
+        this.secuencial = new Filtro(rgbFiltro, this.alto, this.ancho);
     }
 
     /**
