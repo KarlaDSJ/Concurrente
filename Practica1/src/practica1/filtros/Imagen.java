@@ -1,18 +1,18 @@
 package practica1.filtros;
 //para leer y crear img
-import java.io.File;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-//Para mostrar las img
+import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-//Para aplicar filtros
 import practica1.filtros.secuencial.Filtro;
+//Para mostrar las img
+//Para aplicar filtros
 
 /**
  * Clase que crea una imagen para aplicarle filtros 
@@ -32,7 +32,7 @@ public class Imagen {
     private Filtro secuencial;
 
     public Imagen() throws Exception{
-        File file= new File("/home/karla/Documentos/Concurrente/Practica1/src/practica1/filtros/secuencial/ejemplo.jpeg");
+        File file= new File("/home/ket/Documentos/Concurrente/Concurrente/Practica1/src/practica1/filtros/secuencial/ejemplo.jpeg");
         this.img = ImageIO.read(file);
         this.ancho = img.getWidth();
         this.alto = img.getHeight();
@@ -121,5 +121,7 @@ public class Imagen {
     public void aplicarFiltro(int op, boolean sec){
         if(sec)
             this.secuencial.aplicarFiltro(op);
+        else
+            this.secuencial.aplicarFiltroConcurrente(op);
     }
 }
