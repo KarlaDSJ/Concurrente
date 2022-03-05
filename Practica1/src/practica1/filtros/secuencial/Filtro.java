@@ -128,8 +128,8 @@ public class Filtro {
     * @return {number} regresa el factor de la matriz, si la suma es
     * mayor a 1 se divide 
   */
-  public int getFactor(double[][] matrix){
-    int suma = 0;
+  public float getFactor(double[][] matrix){
+    float suma = 0;
     for (int alfa = 0; alfa < matrix.length; alfa ++)
       for (int beta = 0; beta < matrix.length; beta ++) {
           suma += matrix[alfa][beta];
@@ -165,7 +165,7 @@ public class Filtro {
     * @param {Array} matrix - Matriz de convolución 
   */
   public void doConvolution(double[][] matrix){
-    int factor = this.getFactor(matrix);
+    float factor = this.getFactor(matrix);
 
     for (int i = 0; i < this.rgb.length; i ++){
       //Calculamos alto y ancho (ubicación del pixel)
