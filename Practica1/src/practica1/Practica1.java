@@ -3,7 +3,7 @@ package practica1;
 import practica1.filtros.Imagen;
 
 public class Practica1 {
-    
+
     public static void main(String[] args) {
 
         System.out.println("--- Multiplicación de matrices ---");
@@ -53,23 +53,13 @@ public class Practica1 {
 
             Imagen img = new Imagen(rutaImagen);
             System.out.println("\nAplicando filtro secuencial");
-            timestamp = System.nanoTime();
             img.aplicarFiltro(filtro, true);
-            ms = System.nanoTime() - timestamp;
-            System.out.println("Tiempo transcurrido: " + ms);
-            ms = ms / 1000000000l;
-            System.out.println("Tiempo transcurrido es segundos: " + ms);
 
             img.reset();
 
             System.out.println("\nAplicando filtro concurrente");
-            timestamp = System.nanoTime();
             img.aplicarFiltro(filtro, false);
-            ms = System.nanoTime() - timestamp;
-            System.out.println("Tiempo transcurrido: " + ms);
-            ms = ms / 1000000000l;
-            System.out.println("Tiempo transcurrido es segundos: " + ms);
-
+           
             img.mostrarImagen();
         } catch (Exception e) {
             e.printStackTrace();

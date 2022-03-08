@@ -112,11 +112,16 @@ public class Imagen {
     }
 
     /**
-     * @desc Dada una opción aplica un filtro
+     * @desc Dada una opción aplica un filtro y mide el tiempo
      * @param op número de la opción del filtro
      * @param sec nos indica si aplicar el filtro secuencial o no
      */
     public void aplicarFiltro(int op, boolean sec){
+        long timestamp = System.nanoTime();
         this.secuencial.aplicarFiltro(op, sec);
+        long ms = System.nanoTime() - timestamp;
+        System.out.println("Tiempo transcurrido: " + ms);
+        ms = ms / 1000000000l;
+        System.out.println("Tiempo transcurrido es segundos: " + ms);
     }
 }
