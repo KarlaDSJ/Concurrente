@@ -19,6 +19,8 @@ public class Filtro {
   private int ancho; // Alto de la imagen
   private int alto; // Ancho de la imagen
 
+  final private int NUM_HILOS = 100;
+
   /**
     * @desc Asigna los valores RGB
     * @param rgb  
@@ -97,7 +99,7 @@ public class Filtro {
             this.selecConvolucion(op - 7, sec);
             break;
           default:
-              break;
+            throw new IllegalArgumentException("Opcion no valida");
       }
   }
 
@@ -131,10 +133,9 @@ public class Filtro {
     try {
       FiltroConcurrente mc = new FiltroConcurrente(this.rgb, null, f);
       List<Thread> hilosh = new ArrayList<>();
-      int n = this.rgb.length;
-      int hilos = 5;        
+      int hilos = NUM_HILOS;        
 
-      for(int i = 0; i < n; i++){
+      for(int i = 0; i < alto; i++){
         Thread t = new Thread(mc,"0-"+i);
         hilosh.add(t);
         t.start();
@@ -217,10 +218,9 @@ public class Filtro {
     try {
       FiltroConcurrente mc = new FiltroConcurrente(this.rgb, matrix, null);
     List<Thread> hilosh = new ArrayList<>();
-    int n = this.rgb.length;
-    int hilos = 5;        
+    int hilos = NUM_HILOS;        
 
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < alto; i++){
             Thread t = new Thread(mc,"1-"+i);
             hilosh.add(t);
             t.start();
@@ -287,22 +287,27 @@ public class Filtro {
     }
 
 
-    public void convolucionConcurrente (int i){
+    public void convolucionConcurrente (int posicion){
       float factor = getFactor(this.matrix);
-      
+      for (int i = 0 ; i < ancho; i++) {
         //Calculamos alto y ancho (ubicación del pixel)
-        int h = i / alto;
-        int w = i % alto;
+        int h = (posicion * ancho + i) / alto;
+        int w = (posicion * ancho + i) % alto;
         int[] valor =  applyMatrix(this.matrix, w, h); //aplicamos la matriz
         //Asignamos los nuevos valores
         int r = validarRango(factor * valor[0]);
         int g = validarRango(factor * valor[1]);
         int b = validarRango(factor * valor[2]);
         this.salida[w * ancho + h] = new Color(r, g, b);      
+      }
+      
     }    
 
     public void doPorPixelConcurrente(int posicion){
-      this.salida[posicion] = f.apply(rgb[posicion]);
+      for (int i = 0; i < ancho; i++) {
+        this.salida[posicion * ancho + i] = f.apply(rgb[posicion]);
+      }
+      
     }
 
     @Override

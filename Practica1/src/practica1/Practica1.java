@@ -5,6 +5,7 @@ import practica1.filtros.Imagen;
 public class Practica1 {
     
     public static void main(String[] args) {
+
         System.out.println("--- Multiplicación de matrices ---");
         Matriz a = new Matriz(
             new int[][] {
@@ -39,9 +40,36 @@ public class Practica1 {
         System.out.println("Resultado concurrente: \n" + c2);
         System.out.println("Tiempo transcurrido: " + ms);
 
+        args = new String[] {
+            "C:\\Users\\danie\\OneDrive\\Imágenes\\imagen.jpg", "3"
+        };
+
         try {
-            Imagen img = new Imagen();
-            img.aplicarFiltro(1, false);
+            String rutaImagen = args[0];
+            int filtro = Integer.parseInt(args[1]);
+
+            if (args.length != 2)
+                throw new IllegalArgumentException("Tienes que meter 2 parametros");
+
+            Imagen img = new Imagen(rutaImagen);
+            System.out.println("\nAplicando filtro secuencial");
+            timestamp = System.nanoTime();
+            img.aplicarFiltro(filtro, true);
+            ms = System.nanoTime() - timestamp;
+            System.out.println("Tiempo transcurrido: " + ms);
+            ms = ms / 1000000000l;
+            System.out.println("Tiempo transcurrido es segundos: " + ms);
+
+            img.reset();
+
+            System.out.println("\nAplicando filtro concurrente");
+            timestamp = System.nanoTime();
+            img.aplicarFiltro(filtro, false);
+            ms = System.nanoTime() - timestamp;
+            System.out.println("Tiempo transcurrido: " + ms);
+            ms = ms / 1000000000l;
+            System.out.println("Tiempo transcurrido es segundos: " + ms);
+
             img.mostrarImagen();
         } catch (Exception e) {
             // TODO Auto-generated catch block

@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import practica1.filtros.secuencial.Filtro;
+import java.awt.Image;
 //Para mostrar las img
 //Para aplicar filtros
 
@@ -31,8 +32,8 @@ public class Imagen {
     private int alto; 
     private Filtro secuencial;
 
-    public Imagen() throws Exception{
-        File file= new File("filtros\\secuencial\\ejemplo.jpeg");
+    public Imagen(String ruta) throws Exception{
+        File file= new File(ruta);
         this.img = ImageIO.read(file);
         this.ancho = img.getWidth();
         this.alto = img.getHeight();
@@ -87,8 +88,8 @@ public class Imagen {
      */
     public void mostrarImagen(){
         //Cargamos las img
-        ImageIcon original = new ImageIcon(img);
-        ImageIcon filtro = new ImageIcon(getImgFiltro());
+        ImageIcon original = new ImageIcon(img.getScaledInstance(400, 400, Image.SCALE_SMOOTH));
+        ImageIcon filtro = new ImageIcon(getImgFiltro().getScaledInstance(400, 400, Image.SCALE_SMOOTH));
         //Creamos la vantana
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
