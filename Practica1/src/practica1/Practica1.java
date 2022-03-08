@@ -41,7 +41,7 @@ public class Practica1 {
         System.out.println("Tiempo transcurrido: " + ms);
 
         args = new String[] {
-            "C:\\Users\\danie\\OneDrive\\Imágenes\\imagen.jpg", "3"
+            "Practica1/src/practica1/filtros/ejemplo.jpeg", "10"
         };
 
         try {
@@ -72,7 +72,6 @@ public class Practica1 {
 
             img.mostrarImagen();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

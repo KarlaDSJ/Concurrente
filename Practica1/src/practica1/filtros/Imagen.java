@@ -10,10 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import practica1.filtros.secuencial.Filtro;
 import java.awt.Image;
-//Para mostrar las img
-//Para aplicar filtros
 
 /**
  * Clase que crea una imagen para aplicarle filtros 

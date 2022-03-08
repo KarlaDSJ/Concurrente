@@ -1,4 +1,4 @@
-package practica1.filtros.secuencial;
+package practica1.filtros;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -305,7 +305,7 @@ public class Filtro {
 
     public void doPorPixelConcurrente(int posicion){
       for (int i = 0; i < ancho; i++) {
-        this.salida[posicion * ancho + i] = f.apply(rgb[posicion]);
+        this.salida[posicion * ancho + i] = f.apply(rgb[posicion * ancho + i]);
       }
       
     }
@@ -320,8 +320,5 @@ public class Filtro {
     }
 
 }
-
-
-
 
 }
