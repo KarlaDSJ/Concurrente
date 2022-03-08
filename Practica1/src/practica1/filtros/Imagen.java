@@ -32,7 +32,7 @@ public class Imagen {
     private Filtro secuencial;
 
     public Imagen() throws Exception{
-        File file= new File("/home/ket/Documentos/Concurrente/Concurrente/Practica1/src/practica1/filtros/secuencial/ejemplo.jpeg");
+        File file= new File("filtros\\secuencial\\ejemplo.jpeg");
         this.img = ImageIO.read(file);
         this.ancho = img.getWidth();
         this.alto = img.getHeight();
@@ -119,9 +119,6 @@ public class Imagen {
      * @param sec nos indica si aplicar el filtro secuencial o no
      */
     public void aplicarFiltro(int op, boolean sec){
-        if(sec)
-            this.secuencial.aplicarFiltro(op);
-        else
-            this.secuencial.aplicarFiltroConcurrente(op);
+        this.secuencial.aplicarFiltro(op, sec);
     }
 }
