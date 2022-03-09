@@ -2,6 +2,7 @@ package practica1.filtros;
 //para leer y crear img
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -10,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.Image;
+import practica1.filtros.Filtro;
 
 /**
  * Clase que crea una imagen para aplicarle filtros 
