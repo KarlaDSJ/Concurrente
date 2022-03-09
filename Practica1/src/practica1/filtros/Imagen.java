@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import practica1.filtros.Filtro;
 
 /**
  * Clase que crea una imagen para aplicarle filtros 

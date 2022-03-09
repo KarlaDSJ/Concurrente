@@ -1,4 +1,4 @@
-package practica1;
+package practica1.matrices;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,7 +39,7 @@ public class Matriz {
         valores = new int[t][t];
         try {
             
-          File myObj = new File("Practica1/src/practica1/Matrices/mat"+tam);          
+          File myObj = new File("Practica1/src/practica1/matrices/ejemplos/mat"+tam);          
           Scanner myReader = new Scanner(myObj);
           while (myReader.hasNextLine()) {
             String data = myReader.nextLine();            
@@ -78,15 +78,16 @@ public class Matriz {
         MultipliacionConcurrente mc = new MultipliacionConcurrente(this, matriz);
         List<Thread> hilosh = new ArrayList<>();
         int n = valores.length;
-        int hilos = 10;  
+        int hilos = 5;  
 
         try {
 
         for(int i = 0; i < n; i++){
-            Thread t = new Thread(mc, (i / n) + "," + (i % n));
+            Thread t = new Thread(mc, i + "");
             hilosh.add(t);
             t.start();
     
+            
             if(hilosh.size() == hilos){
                 for(var threads: hilosh){
                         threads.join();
@@ -140,14 +141,16 @@ public class Matriz {
 
         @Override
         public void run() {
-            String[] celda = Thread.currentThread().getName().split(",");
-            calculaCelda(Integer.parseInt(celda[0]), Integer.parseInt(celda[1]));
+            String celda = Thread.currentThread().getName();
+            calculaCelda(Integer.parseInt(celda));
         }
 
-        public void calculaCelda(int fila, int columna) {
+        public void calculaCelda(int fila) {
             int n = a.valores.length;
-            for (int k = 0; k < n; k++) {
-                c.valores[fila][columna] += a.valores[fila][k] * b.valores[k][columna];
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    c.valores[fila][j] += a.valores[fila][k] * b.valores[k][j];
+                }
             }
         }
 
