@@ -6,6 +6,7 @@ import java.util.function.UnaryOperator;
 //Para los hilos
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @class
@@ -85,11 +86,15 @@ public class Filtro {
               break;
           //RGB
           case 6:
+              System.out.println("Ingresa las constantes a sumar R G B: ");
+              Scanner entrada = new Scanner(System.in);
+              int rVal = entrada.nextInt();
+              int gVal = entrada.nextInt();
+              int bVal = entrada.nextInt();
               f = (color) -> {
-                //Falta ver como leer las variables
-                int r = validarRango(color.getRed() & 25);
-                int g = validarRango(color.getGreen() &  25);
-                int b = validarRango(color.getBlue() &  -18);
+                int r = validarRango(color.getRed() & rVal);
+                int g = validarRango(color.getGreen() & gVal);
+                int b = validarRango(color.getBlue() & bVal);
                 return new Color(r, g, b);
             };
               if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");

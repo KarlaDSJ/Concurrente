@@ -41,26 +41,23 @@ public class Practica1 {
         System.out.println("Tiempo transcurrido: " + ms);
 
         args = new String[] {
-            "Practica1/src/practica1/filtros/ejemplo.jpeg", "10"
+            "Practica1/src/practica1/filtros/ejemplo.jpeg", "6"
         };
 
         try {
             String rutaImagen = args[0];
             int filtro = Integer.parseInt(args[1]);
+            boolean sec = Boolean.parseBoolean(args[2]);
 
-            if (args.length != 2)
-                throw new IllegalArgumentException("Tienes que meter 2 parametros");
+            if (args.length != 3)
+                throw new IllegalArgumentException("Tienes que meter 3 parametros: ruta opFiltro secuencial?");
 
             Imagen img = new Imagen(rutaImagen);
-            System.out.println("\nAplicando filtro secuencial");
+            String cadena = sec? "secuencial" : "concurrente";
+            System.out.println("\nAplicando filtro "+ cadena);
             img.aplicarFiltro(filtro, true);
-
-            img.reset();
-
-            System.out.println("\nAplicando filtro concurrente");
-            img.aplicarFiltro(filtro, false);
-           
             img.mostrarImagen();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
