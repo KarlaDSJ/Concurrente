@@ -7,9 +7,6 @@ public class Practica1 {
 
     public static void main(String[] args) {
 
-        args = new String[] {
-             "10", "Practica1/src/practica1/filtros/ejemplos/chica.png", "1", "true"
-        };
         try {
             if (args.length != 4)
                 throw new IllegalArgumentException("Tienes que meter 4 parametros: matriz ruta opFiltro secuencial?");

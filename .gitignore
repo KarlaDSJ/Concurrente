@@ -1,0 +1,12 @@
+# IDE - VSCode
+.vscode/
+.code-workspace
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Java
+classes/
+.mtj.tmp/
+*.class
