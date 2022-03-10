@@ -27,7 +27,7 @@ public class Imagen {
     private Color[] rgbFiltro;
     private int ancho;
     private int alto; 
-    private Filtro secuencial;
+    private Filtro filtro;
 
     public Imagen(String ruta) throws Exception{
         File file= new File(ruta);
@@ -47,7 +47,7 @@ public class Imagen {
             }
         }
         this.rgbFiltro = rgb;
-        this.secuencial = new Filtro(rgbFiltro, this.alto, this.ancho);
+        this.filtro = new Filtro(rgbFiltro, this.alto, this.ancho);
     }
 
     /**
@@ -116,12 +116,13 @@ public class Imagen {
      * @param op número de la opción del filtro
      * @param sec nos indica si aplicar el filtro secuencial o no
      */
-    public void aplicarFiltro(int op, boolean sec){
+    public long aplicarFiltro(int op, boolean sec){
         long timestamp = System.nanoTime();
-        this.secuencial.aplicarFiltro(op, sec);
+        this.filtro.aplicarFiltro(op, sec);
         long ms = System.nanoTime() - timestamp;
-        System.out.println("Tiempo transcurrido: " + ms);
-        ms = ms / 1000000000l;
-        System.out.println("Tiempo transcurrido es segundos: " + ms);
+        //System.out.println("Tiempo transcurrido: " + ms);
+        //ms = ms / 1000000000l;
+        //System.out.println("Tiempo transcurrido es segundos: " + ms);
+        return ms;
     }
 }
