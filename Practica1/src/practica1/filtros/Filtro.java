@@ -1,11 +1,12 @@
-package practica1.filtros.secuencial;
+package practica1.filtros;
+//Para el color del pixel
 import java.awt.Color;
+//Para las lambdas
+import java.util.function.UnaryOperator;
+//Para los hilos
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.UnaryOperator;
-
-
-
+import java.util.Scanner;
 
 /**
  * @class
@@ -32,10 +33,12 @@ public class Filtro {
   }
 
   /**
-     * @desc Dada una opción aplica un filtro
-     * @param op número de la opción del filtro
-     */
-    public void aplicarFiltro(int op, boolean sec){
+    * @desc Dada una opción aplica un filtro
+    * @param op número de la opción del filtro
+    * @param sec nos indica si aplicar el filtro de manera
+    *            concurrente o secuencial
+  */
+  public void aplicarFiltro(int op, boolean sec){
       UnaryOperator<Color> f;
       switch (op) {
           //Filtros Grises
@@ -44,7 +47,7 @@ public class Filtro {
                   int prom = validarRango((color.getRed() + color.getGreen() + color.getBlue()) / 3);
                   return new Color(prom, prom, prom);
               };
-              if (sec) this.doPorPixel(f); else this.doPorPixelConcurrente(f);
+              if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           case 2:
               f = (color) -> {
@@ -53,7 +56,7 @@ public class Filtro {
                   int b = validarRango(color.getBlue()*0.11);
                   return new Color(r, g, b);
               };
-              if (sec) this.doPorPixel(f); else this.doPorPixelConcurrente(f);
+              if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           case 3:
               f = (color) -> {
@@ -62,13 +65,13 @@ public class Filtro {
                   int b = validarRango(color.getBlue()*0.0722);
                   return new Color(r, g, b);
               };
-              if (sec) this.doPorPixel(f); else this.doPorPixelConcurrente(f);
+              if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           case 4:
               f = (color) -> {
                   return new Color(color.getRed(), color.getRed(), color.getRed());
               };
-              if (sec) this.doPorPixel(f); else this.doPorPixelConcurrente(f);
+              if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           //Alto contraste
           case 5:
@@ -79,18 +82,22 @@ public class Filtro {
                   int val = (r + g + b) > 127? 255: 0;
                   return new Color(val, val, val);
               };
-              if (sec) this.doPorPixel(f); else this.doPorPixelConcurrente(f);
+              if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           //RGB
           case 6:
+              System.out.println("Ingresa las constantes a sumar R G B: ");
+              Scanner entrada = new Scanner(System.in);
+              int rVal = entrada.nextInt();
+              int gVal = entrada.nextInt();
+              int bVal = entrada.nextInt();
               f = (color) -> {
-                //Falta ver como leer las variables
-                int r = validarRango(color.getRed() & 25);
-                int g = validarRango(color.getGreen() &  25);
-                int b = validarRango(color.getBlue() &  -18);
+                int r = validarRango(color.getRed() & rVal);
+                int g = validarRango(color.getGreen() & gVal);
+                int b = validarRango(color.getBlue() & bVal);
                 return new Color(r, g, b);
             };
-              if (sec) this.doPorPixel(f); else this.doPorPixelConcurrente(f);
+              if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           case 7:
           case 8:
@@ -120,7 +127,7 @@ public class Filtro {
   /**
      * @desc Modifica los colores de cada pixel
      *       Muestra el resultado en el objeto canvas del html
-     * @param {function} f - función que especifica la modificación
+     * @param f - función que especifica la modificación
      *                   que se le hará a cada color del pixel
    */
    public void doPorPixel(UnaryOperator<Color> f){
@@ -128,38 +135,11 @@ public class Filtro {
       this.rgb[alfa] = f.apply(this.rgb[alfa]);
     }
    }
-
-   public void doPorPixelConcurrente(UnaryOperator<Color> f){
-    try {
-      FiltroConcurrente mc = new FiltroConcurrente(this.rgb, null, f);
-      List<Thread> hilosh = new ArrayList<>();
-      int hilos = NUM_HILOS;        
-
-      for(int i = 0; i < alto; i++){
-        Thread t = new Thread(mc,"0-"+i);
-        hilosh.add(t);
-        t.start();
-
-        if(hilosh.size() == hilos){
-            for(Thread threads: hilosh){
-                threads.join();
-            }
-            hilosh.clear();
-        }
-    }
-
-    for(Thread threads: hilosh){
-        threads.join();
-    }
-    } catch(InterruptedException e) {
-      System.out.println(e.getMessage()); 
-    } 
-   }
    
   /**
     * @desc Calcula el factor de la matriz de convolución 
-    * @param {Array} matrix - Matriz de convolución 
-    * @return {number} regresa el factor de la matriz, si la suma es
+    * @param matrix - Matriz de convolución 
+    * @return el factor de la matriz, si la suma es
     * mayor a 1 se divide 
   */
   public float getFactor(double[][] matrix){
@@ -174,9 +154,9 @@ public class Filtro {
 
   /**
    * Aplica la matriz de convolución a un pixel
-   * @param {Array} matrix matriz de convolución
-   * @param {number} alfa coordenada x
-   * @param {number} beta coordenada y
+   * @param matrix matriz de convolución
+   * @param alfa coordenada x
+   * @param beta coordenada y
    * @returns el valor del pixel
    */
    private int[] applyMatrix(double[][] matrix, int alfa, int beta) {
@@ -184,6 +164,7 @@ public class Filtro {
     int length = matrix.length;
     for (int i = 0; i < length; i ++)
       for (var j = 0; j < length; j++) {
+        //Calculamos alto y ancho (ubicación del pixel)
         int x = Math.floorMod((alfa + i - (length/2)),this.ancho);
         int y = Math.floorMod((beta + j - (length/2)), this.alto);
         int site = this.ancho * x + y;
@@ -196,7 +177,7 @@ public class Filtro {
 
   /**
     * @desc Aplica una matriz de convolución a cada pixel
-    * @param {Array} matrix - Matriz de convolución 
+    * @param matrix - Matriz de convolución 
   */
   public void doConvolution(double[][] matrix){
     float factor = this.getFactor(matrix);
@@ -214,48 +195,60 @@ public class Filtro {
     }
   }
 
-  public void doConvolutionConcurrente (double[][] matrix){
+  /**
+    * @desc Aplica una matriz de convolución a cada pixel
+            o odifica los colores de cada pixel , de manera concurrente
+    * @param matrix - Matriz de convolución 
+    * @param f - función que especifica la modificación
+    *            que se le hará a cada color del pixel
+    * @param op - nos indica si modificamos el color o aplicamos una matriz
+  */
+  public void doConcurrente(double[][] matrix, 
+                            UnaryOperator<Color> f,String op){
     try {
-      FiltroConcurrente mc = new FiltroConcurrente(this.rgb, matrix, null);
-    List<Thread> hilosh = new ArrayList<>();
-    int hilos = NUM_HILOS;        
+      FiltroConcurrente mc = new FiltroConcurrente(this.rgb, matrix, f);
+      List<Thread> hilosh = new ArrayList<>();
+      int hilos = NUM_HILOS;        
 
-        for(int i = 0; i < alto; i++){
-            Thread t = new Thread(mc,"1-"+i);
-            hilosh.add(t);
-            t.start();
+      for(int i = 0; i < alto; i++){
+        Thread t = new Thread(mc,op+"-"+i);
+        hilosh.add(t);
+        t.start();
 
-            if(hilosh.size() == hilos){
-                for(Thread threads: hilosh){
-                    threads.join();
-                }
-                hilosh.clear();
+        if(hilosh.size() == hilos){
+            for(Thread threads: hilosh){
+                threads.join();
             }
+            hilosh.clear();
         }
-
-        for(Thread threads: hilosh){
-            threads.join();
-        }
-    } catch(InterruptedException e) {
-      System.out.println(e.getMessage());
     }
-  
+
+    for(Thread threads: hilosh){
+        threads.join();
+    }
+    } catch(InterruptedException e) {
+      System.out.println(e.getMessage()); 
+    }                         
   }
 
-
+   /**
+    * @desc Selecciona y aplica una matriz de convolución
+    * @param op - nos dice que matriz aplicar
+    * @param sec - indica si se aplica de manera concurrente o secuencial
+  */
   public void selecConvolucion(int op, boolean sec){
     double[][][] matriz = {
-      //Blur 1
+      //Blur 1, op 7
       {{0.0, 0.2, 0.0}, 
       {0.2, 0.2, 0.2}, 
       {0.0, 0.2, 0.0}}, 
-      //Blur 2
+      //Blur 2, op 8
       {{0, 0, 1, 0, 0},
       {0, 1, 1, 1, 0},
       {1, 1, 1, 1, 1},
       {0, 1, 1, 1, 0},
       {0, 0, 1, 0, 0}},
-      //Blur 3
+      //Blur 3, op 9
       {{1, 0, 0, 0, 0, 0, 0, 0, 0},
       {0, 1, 0, 0, 0, 0, 0, 0, 0},
       {0, 0, 1, 0, 0, 0, 0, 0, 0},
@@ -265,28 +258,35 @@ public class Filtro {
       {0, 0, 0, 0, 0, 0, 1, 0, 0},
       {0, 0, 0, 0, 0, 0, 0, 1, 0},
       {0, 0, 0, 0, 0, 0, 0, 0, 1}},
-      //Sharpen
+      //Sharpen , op 10
       {{-1, -1, -1}, 
       {-1, 9, -1}, 
       {-1, -1, -1}}, 
     };
-    if (sec) this.doConvolution(matriz[op]); else this.doConvolutionConcurrente(matriz[op]);
+    if (sec) this.doConvolution(matriz[op]); else this.doConcurrente(matriz[op], null, "1");
   }
 
-
-
+  /**
+   * @class
+   * Permite aplicar los filtros a la imagen de manera concurrente.
+  */
   class FiltroConcurrente implements Runnable{    
-    private Color[] salida;
-    private double[][] matrix; 
+    private Color[] salida; //RGB de la imagen
+    private double[][] matrix; //matriz de convolución
+    //función que especifica la modificación que se le hará a cada color del pixel
     private UnaryOperator<Color> f;
     
+
     public FiltroConcurrente(Color[] salida, double[][] matrix, UnaryOperator<Color> f){
       this.salida = salida;
       this.matrix = matrix;
       this.f = f;
     }
 
-
+    /**
+      * @desc Aplica una matriz de convolución concurrente
+      * @param posicion - número de la fila (hilo)
+    */
     public void convolucionConcurrente (int posicion){
       float factor = getFactor(this.matrix);
       for (int i = 0 ; i < ancho; i++) {
@@ -305,7 +305,7 @@ public class Filtro {
 
     public void doPorPixelConcurrente(int posicion){
       for (int i = 0; i < ancho; i++) {
-        this.salida[posicion * ancho + i] = f.apply(rgb[posicion]);
+        this.salida[posicion * ancho + i] = f.apply(rgb[posicion * ancho + i]);
       }
       
     }
@@ -320,8 +320,5 @@ public class Filtro {
     }
 
 }
-
-
-
 
 }

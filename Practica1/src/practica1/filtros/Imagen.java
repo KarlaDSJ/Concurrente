@@ -2,6 +2,7 @@ package practica1.filtros;
 //para leer y crear img
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -10,10 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import practica1.filtros.secuencial.Filtro;
-import java.awt.Image;
-//Para mostrar las img
-//Para aplicar filtros
 
 /**
  * Clase que crea una imagen para aplicarle filtros 
@@ -115,11 +112,16 @@ public class Imagen {
     }
 
     /**
-     * @desc Dada una opción aplica un filtro
+     * @desc Dada una opción aplica un filtro y mide el tiempo
      * @param op número de la opción del filtro
      * @param sec nos indica si aplicar el filtro secuencial o no
      */
     public void aplicarFiltro(int op, boolean sec){
+        long timestamp = System.nanoTime();
         this.secuencial.aplicarFiltro(op, sec);
+        long ms = System.nanoTime() - timestamp;
+        System.out.println("Tiempo transcurrido: " + ms);
+        ms = ms / 1000000000l;
+        System.out.println("Tiempo transcurrido es segundos: " + ms);
     }
 }
