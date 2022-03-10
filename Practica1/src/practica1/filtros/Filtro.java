@@ -20,7 +20,7 @@ public class Filtro {
   private int ancho; // Alto de la imagen
   private int alto; // Ancho de la imagen
 
-  final private int NUM_HILOS = 100;
+  private int num_hilos;
 
   /**
     * @desc Asigna los valores RGB
@@ -38,8 +38,9 @@ public class Filtro {
     * @param sec nos indica si aplicar el filtro de manera
     *            concurrente o secuencial
   */
-  public void aplicarFiltro(int op, boolean sec){
+  public void aplicarFiltro(int op, boolean sec, int num_hilos){
       UnaryOperator<Color> f;
+      this.num_hilos = num_hilos;
       switch (op) {
           //Filtros Grises
           case 1:
@@ -208,7 +209,7 @@ public class Filtro {
     try {
       FiltroConcurrente mc = new FiltroConcurrente(this.rgb, matrix, f);
       List<Thread> hilosh = new ArrayList<>();
-      int hilos = NUM_HILOS;        
+      int hilos = num_hilos;        
 
       for(int i = 0; i < alto; i++){
         Thread t = new Thread(mc,op+"-"+i);
