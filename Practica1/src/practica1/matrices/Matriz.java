@@ -74,11 +74,11 @@ public class Matriz {
         return new Matriz(resultado);
     }
 
-    public Matriz multiplicaConcurrente(Matriz matriz) {
+    public Matriz multiplicaConcurrente(Matriz matriz, int num_hilos) {
         MultipliacionConcurrente mc = new MultipliacionConcurrente(this, matriz);
         List<Thread> hilosh = new ArrayList<>();
         int n = valores.length;
-        int hilos = 5;  
+        int hilos = num_hilos;  
 
         try {
 

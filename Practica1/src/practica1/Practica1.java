@@ -18,13 +18,11 @@ public class Practica1 {
 
             System.out.println("--- Multiplicación de matrices ---");
             Matriz a = new Matriz(args[0]);        
-            System.out.println("A = \n" + a);
 
             long timestamp = System.nanoTime();
             Matriz mul;
-            mul = sec? a.multiplica(a): a.multiplicaConcurrente(a); 
+            mul = sec? a.multiplica(a): a.multiplicaConcurrente(a, num_hilos); 
             long ms = System.nanoTime() - timestamp; 
-            System.out.println("Resultado: \n" + mul);          
             System.out.println("Tiempo transcurrido: " + ms); 
 
             Imagen img = new Imagen(rutaImagen);
