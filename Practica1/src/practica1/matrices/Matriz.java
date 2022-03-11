@@ -1,7 +1,11 @@
-package practica1;
+package practica1.matrices;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 
 /**
  * Clase que guarda la lógica de operaciones
@@ -28,6 +32,30 @@ public class Matriz {
         this.valores = valores;
     }
 
+
+    public Matriz(String tam) {
+        int i = 0;  
+        int t = Integer.parseInt(tam);
+        valores = new int[t][t];
+        try {
+            
+          File myObj = new File("src/practica1/matrices/ejemplos/mat"+tam);          
+          Scanner myReader = new Scanner(myObj);
+          while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();            
+            String[] temp = data.split(" ");
+            for (int j = 0; j < temp.length; j++) {
+                valores[i][j] = Integer.parseInt(temp[j]);
+            }  
+            i++;        
+          }
+          myReader.close();
+        } catch (FileNotFoundException e) {
+          System.out.println("An error occurred.");
+          e.printStackTrace();
+        }
+      }
+
     /**
      * Multiplica la matríz con otra dada
      * @param matriz la matriz a multiplicar
@@ -46,28 +74,40 @@ public class Matriz {
         return new Matriz(resultado);
     }
 
-    public Matriz multiplicaConcurrente(Matriz matriz) {
+    public Matriz multiplicaConcurrente(Matriz matriz, int num_hilos) {
         MultipliacionConcurrente mc = new MultipliacionConcurrente(this, matriz);
-        List<Thread> hilos = new ArrayList<>();
+        List<Thread> hilosh = new ArrayList<>();
         int n = valores.length;
+        int hilos = num_hilos;  
 
-        for (int i = 0; i < n*n; i++) {
-            Thread t = new Thread(mc, (i / n) + "," + (i % n));
-            hilos.add(t);
+        try {
+
+        for(int i = 0; i < n; i++){
+            Thread t = new Thread(mc, i + "");
+            hilosh.add(t);
             t.start();
-        }
-
-        for (Thread t: hilos) {
-            try {
-                t.join();
-            } catch(InterruptedException e) {
-                System.out.println("Error con el hilo " + t.getName() + ": " + e.getMessage());
+    
+            
+            if(hilosh.size() == hilos){
+                for(var threads: hilosh){
+                        threads.join();
+                    }
+                    hilosh.clear();
             }
         }
+        
+        for(Thread threads: hilosh){            
+                threads.join();
+        }
+        
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
 
         return mc.resultado();
     }
 
+    @Override
     public String toString() {
         String resultado = "";
         for (int i = 0; i < valores.length; i++) {
@@ -78,7 +118,7 @@ public class Matriz {
             resultado += " ]\n";
         }
         return resultado;
-    }
+    }    
 
     /**
      * Clase auxiliar para la multiplicación concurrente
@@ -101,14 +141,16 @@ public class Matriz {
 
         @Override
         public void run() {
-            String[] celda = Thread.currentThread().getName().split(",");
-            calculaCelda(Integer.parseInt(celda[0]), Integer.parseInt(celda[1]));
+            String celda = Thread.currentThread().getName();
+            calculaCelda(Integer.parseInt(celda));
         }
 
-        public void calculaCelda(int fila, int columna) {
+        public void calculaCelda(int fila) {
             int n = a.valores.length;
-            for (int k = 0; k < n; k++) {
-                c.valores[fila][columna] += a.valores[fila][k] * b.valores[k][columna];
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    c.valores[fila][j] += a.valores[fila][k] * b.valores[k][j];
+                }
             }
         }
 
