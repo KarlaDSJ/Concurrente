@@ -23,7 +23,7 @@ Para correr el programa:
 ```
 cd Practica1/ 
 
-java -cp ./classes practica1.Practica1 10 src/practica1/filtros/ejemplos/chica.png 3 true
+java -cp ./classes practica1.Practica1 10 src/practica1/filtros/ejemplos/chica.png 3 true 5
 ```
 
 El primer parámetro indica que ejemplo usar para la multiplicación de matrices (10 indica que utilizaremos el archivo mat10 que contiene una matriz de 10x10), el segundo parámetro es la ruta de la imagen a la que le aplicaremos el filtro, el tercer parámetro indica el número de filtro que aplicaremos de la siguiente lista:
@@ -40,5 +40,5 @@ El primer parámetro indica que ejemplo usar para la multiplicación de matrices
  9. Blur (matriz 9x9)
  10. Sharpen 
 
-El último parámetro indica si, tanto la multiplicación de matrices (ejercicio 1) como los filtros, se aplicarán de manera secuencial (true) o concurrente (false).
+El cuarto parámetro indica si, tanto la multiplicación de matrices (ejercicio 1) como los filtros, se aplicarán de manera secuencial (true) o concurrente (false), el último parámetro indica el número de hilos a ocupar en caso de correr la práctica de manera concurrente.
 

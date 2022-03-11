@@ -9,35 +9,30 @@ public class Practica1 {
 
         try {
             if (args.length != 5)
-                throw new IllegalArgumentException("Tienes que meter 5 parametros: matriz ruta opFiltro secuencial? num_hilos");
+                throw new IllegalArgumentException("Tienes que dar 5 parámetros: matriz ruta opFiltro secuencial? num_hilos");
             
             String rutaImagen = args[1];
             int filtro = Integer.parseInt(args[2]);
             boolean sec = Boolean.parseBoolean(args[3]);
             int num_hilos = Integer.parseInt(args[4]);
 
-            //System.out.println("--- Multiplicación de matrices ---");
-            //Matriz a = new Matriz(args[0]);        
-            //System.out.println("A = \n" + a);
+            System.out.println("--- Multiplicación de matrices ---");
+            Matriz a = new Matriz(args[0]);        
+            System.out.println("A = \n" + a);
 
-        /*for (int i = 0; i < 20; i++) {
             long timestamp = System.nanoTime();
             Matriz mul;
             mul = sec? a.multiplica(a): a.multiplicaConcurrente(a); 
             long ms = System.nanoTime() - timestamp; 
             System.out.println("Resultado: \n" + mul);          
-            System.out.println(ms); 
-        }*/
-        long prom =  0;
-        for (int i = 0; i < 20; i++) {
+            System.out.println("Tiempo transcurrido: " + ms); 
+
             Imagen img = new Imagen(rutaImagen);
-            //String cadena = sec? "secuencial" : "concurrente";
-            //System.out.println("\nAplicando filtro "+ cadena);
-            prom += img.aplicarFiltro(filtro, sec, num_hilos);
-            //img.mostrarImagen();
+            String cadena = sec? "secuencial" : "concurrente";
+            System.out.println("\nAplicando filtro "+ cadena);
+            img.aplicarFiltro(filtro, sec, num_hilos);
+            img.mostrarImagen();
             img.reset();
-        }
-        System.out.println(prom/20);
 
         } catch (Exception e) {
             e.printStackTrace();

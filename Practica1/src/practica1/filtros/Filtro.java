@@ -37,6 +37,7 @@ public class Filtro {
     * @param op número de la opción del filtro
     * @param sec nos indica si aplicar el filtro de manera
     *            concurrente o secuencial
+    * @param num_hilos indica cuantos hilos utilizar de manera concurrente
   */
   public void aplicarFiltro(int op, boolean sec, int num_hilos){
       UnaryOperator<Color> f;
@@ -44,6 +45,7 @@ public class Filtro {
       switch (op) {
           //Filtros Grises
           case 1:
+              System.out.println("Filtro: Escala de gris (promedio)");
               f = (color) -> {
                   int prom = validarRango((color.getRed() + color.getGreen() + color.getBlue()) / 3);
                   return new Color(prom, prom, prom);
@@ -51,6 +53,7 @@ public class Filtro {
               if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           case 2:
+            System.out.println("Filtro: Escala de gris (correctud)");
               f = (color) -> {
                   int r = validarRango(color.getRed()*.03);
                   int g = validarRango(color.getGreen()*.59);
@@ -60,6 +63,7 @@ public class Filtro {
               if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           case 3:
+            System.out.println("Filtro: Escala de gris (correctud 2)");
               f = (color) -> {
                   int r = validarRango(color.getRed()*.2126);
                   int g = validarRango(color.getGreen()*0.7152);
@@ -69,6 +73,7 @@ public class Filtro {
               if (sec) this.doPorPixel(f); else this.doConcurrente(null,f, "0");
               break;
           case 4:
+            System.out.println("Filtro: Escala de gris (single color)");
               f = (color) -> {
                   return new Color(color.getRed(), color.getRed(), color.getRed());
               };
@@ -76,6 +81,7 @@ public class Filtro {
               break;
           //Alto contraste
           case 5:
+            System.out.println("Filtro: Alto contraste");
               f = (color) -> {
                   int r = validarRango(color.getRed()*.03);
                   int g = validarRango(color.getGreen()*.59);
@@ -87,14 +93,12 @@ public class Filtro {
               break;
           //RGB
           case 6:
+            System.out.println("Filtro: Componentes RGB");
               System.out.println("Ingresa las constantes a sumar R G B: ");
               Scanner entrada = new Scanner(System.in);
-              int rVal = 25;
-              int gVal = 25;
-              int bVal = 25;
-              /*int rVal = entrada.nextInt();
+              int rVal = entrada.nextInt();
               int gVal = entrada.nextInt();
-              int bVal = entrada.nextInt();*/
+              int bVal = entrada.nextInt();
               f = (color) -> {
                 int r = validarRango(color.getRed() & rVal);
                 int g = validarRango(color.getGreen() & gVal);
@@ -107,10 +111,11 @@ public class Filtro {
           case 8:
           case 9:
           case 10:
+            System.out.println("Filtro: Matriz de Convolución (Blur o Sharpen)");
             this.selecConvolucion(op - 7, sec);
             break;
           default:
-            throw new IllegalArgumentException("Opcion no valida");
+            throw new IllegalArgumentException("Opción no valida");
       }
   }
 
@@ -130,7 +135,6 @@ public class Filtro {
 
   /**
      * @desc Modifica los colores de cada pixel
-     *       Muestra el resultado en el objeto canvas del html
      * @param f - función que especifica la modificación
      *                   que se le hará a cada color del pixel
    */
@@ -307,6 +311,12 @@ public class Filtro {
       
     }    
 
+    /**
+     * @desc Modifica los colores de cada pixel
+     *      de manera concurrente
+     * @param f - función que especifica la modificación
+     *                   que se le hará a cada color del pixel
+   */
     public void doPorPixelConcurrente(int posicion){
       for (int i = 0; i < ancho; i++) {
         this.salida[posicion * ancho + i] = f.apply(rgb[posicion * ancho + i]);

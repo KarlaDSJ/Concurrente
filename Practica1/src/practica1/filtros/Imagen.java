@@ -120,9 +120,9 @@ public class Imagen {
         long timestamp = System.nanoTime();
         this.filtro.aplicarFiltro(op, sec, num_hilos);
         long ms = System.nanoTime() - timestamp;
-        //System.out.println("Tiempo transcurrido: " + ms);
-        //ms = ms / 1000000000l;
-        //System.out.println("Tiempo transcurrido es segundos: " + ms);
+        System.out.println("Tiempo transcurrido: " + ms);
+        ms = ms / 1000000000l;
+        System.out.println("Tiempo transcurrido es segundos: " + ms);
         return ms;
     }
 }
