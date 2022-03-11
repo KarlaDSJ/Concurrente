@@ -4,7 +4,7 @@ import practica1.filtros.Imagen;
 import practica1.matrices.Matriz;
 
 public class Practica1 {
-
+ 
     public static void main(String[] args) {
 
         try {

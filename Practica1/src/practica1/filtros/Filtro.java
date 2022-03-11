@@ -89,9 +89,12 @@ public class Filtro {
           case 6:
               System.out.println("Ingresa las constantes a sumar R G B: ");
               Scanner entrada = new Scanner(System.in);
-              int rVal = entrada.nextInt();
+              int rVal = 25;
+              int gVal = 25;
+              int bVal = 25;
+              /*int rVal = entrada.nextInt();
               int gVal = entrada.nextInt();
-              int bVal = entrada.nextInt();
+              int bVal = entrada.nextInt();*/
               f = (color) -> {
                 int r = validarRango(color.getRed() & rVal);
                 int g = validarRango(color.getGreen() & gVal);
@@ -165,10 +168,10 @@ public class Filtro {
     int length = matrix.length;
     for (int i = 0; i < length; i ++)
       for (var j = 0; j < length; j++) {
-        //Calculamos alto y ancho (ubicación del pixel)
-        int x = Math.floorMod((alfa + i - (length/2)),this.ancho);
-        int y = Math.floorMod((beta + j - (length/2)), this.alto);
-        int site = this.ancho * x + y;
+        //alto y ancho (ubicación del pixel)
+        int x = alfa + i - (length/2);
+        int y = beta + j - (length/2);
+        int site = Math.floorMod(this.ancho * x + y,this.rgb.length);
         valor[0] += this.rgb[site].getRed() * matrix[i][j];
         valor[1] += this.rgb[site].getGreen() * matrix[i][j];
         valor[2] += this.rgb[site].getBlue() * matrix[i][j];
