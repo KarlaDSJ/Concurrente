@@ -55,13 +55,14 @@ public class LockTest {
         /*
         * Descomentar el test a ejecutar
         */
-        
+        long nano = System.currentTimeMillis();
         lt.performTest(new TASLock());
         //lt.performTest(new TTASLock());
         //lt.performTest(new BackoffLock());
         //lt.performTest(new CLHLock());
         //lt.performTest(new MCSLock());
         //lt.performTest(new ALock(THREADS));
+        System.out.println("Tiempo obtenido: " + (System.currentTimeMillis() - nano));
     }
 }
 
