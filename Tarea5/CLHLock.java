@@ -26,7 +26,7 @@ public class CLHLock implements Lock {
     public CLHLock(){
         // inicializamos la cola como vacía
         // no apunta a ningun nodo
-        tail = new AtomicReference<QNode>(null);
+        tail = new AtomicReference<QNode>(new QNode());
         // Guardamos el nodo actual para el hilo actual
         myNode = new ThreadLocal<QNode>(){
             protected QNode initialValue(){
@@ -57,7 +57,7 @@ public class CLHLock implements Lock {
         myPred.set(pred);
         // Esperamos a que se desbloquee
         // el predecesor
-        while (pred.locked){}
+        while(pred.locked)Thread.yield();
     }
     
     /**
