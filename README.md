@@ -10,3 +10,6 @@ Prácticas de la materia Computación Concurrente
 ### Prácticas:
  1. Aplicar filtros a una imagen 
  2. Algoritmo de Peterson y Filtro (Peterson para más de 2 hilos)
+
+### Tareas:
+ 5. Spinlocks, Estructuras de Datos Concurrentes
