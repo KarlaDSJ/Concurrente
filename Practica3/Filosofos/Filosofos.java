@@ -5,10 +5,10 @@ package Filosofos;
  */
 public abstract class Filosofos implements Runnable {
     public static int DEFAULT_MEZA_TAM = 5;
-    private int ID;
-    private int comido;
-    private Tenedor tenedorL;
-    private Tenedor tenedorD;
+    protected int ID;
+    protected int comido;
+    protected Tenedor tenedorL;
+    protected Tenedor tenedorD;
 
 
 
@@ -18,6 +18,7 @@ public abstract class Filosofos implements Runnable {
             for (int i = 0; i < 500; ++i){
                 pensar();
                 entrarALaMesa();
+                comido = 0;
             }
         }catch(Exception e){}
         
@@ -29,7 +30,7 @@ public abstract class Filosofos implements Runnable {
      * @throws InterruptedException
      */
     public void entrarALaMesa() throws InterruptedException{
-
+        
     }
 
     /**

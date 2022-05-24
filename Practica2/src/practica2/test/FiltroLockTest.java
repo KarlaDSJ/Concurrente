@@ -5,7 +5,7 @@ import practica2.Filtro;
 import practica2.interfaces.Semaforo;
 
 public class FiltroLockTest {
-    static int ROUNDS = 100000;
+    static int ROUNDS = 1000000;
     static int THREADS = 6;
     static int MAX_CONCURRENT_THREADS = 3;
     Semaforo semaphore;

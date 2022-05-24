@@ -16,19 +16,29 @@ public class FilosofosFiltro extends Filosofos{
 
     @Override
     public void entrarALaMesa() throws InterruptedException{
-        //Aqui va tu codigo
+        while (comido == 0) {
+            filtro.acquire();
+            if (tenedorL.puedoTomarlo() && tenedorD.puedoTomarlo()) {
+                tomaTenedores();
+                eat();
+                comido = 1;
+                soltarTenedores();
+            }
+            filtro.release();
+        }
     }
 
     @Override
     public void tomaTenedores() {
-         //Aqui va tu codigo
-        
+        tenedorL.tomar();
+        tenedorD.tomar();
     }
 
     @Override
     public void soltarTenedores() {
          //Aqui va tu codigo
-        
+        tenedorL.soltar();
+        tenedorD.soltar();
     }
     
 }
