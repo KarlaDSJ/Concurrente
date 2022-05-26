@@ -1,0 +1,22 @@
+Cuento 1: Novio infiel 
+Dos o más chicas se pelean por ser a su novio (el mismo para todas), ¿qué hace él para poder verlas a todas
+a lo largo de la semana por lo menos una vez?
+
+Algoritmo de Lamport para turnos 
+
+Cuento 2: No alcancé boletos para Bad Bunny
+El novio infiel quiere un boleto para una de las chicas por internet, y al mismo tiempo la chica quería 
+comprar uno para él. Supongamos que la página está diseñada chafa así que permite que ambos vean los mismos
+asientos. Ellos se comunicaban para saber si ya consiguieron el boleto o no, pero los mensajes tardan mucho
+o se pierden, y éstos mensajes si limitan a "si tengo" y "no tengo". 
+¿Cómo hacerle para que ambos tengan su boleto y éstos sean distintos?
+
+Usar el problema de lectores y escritores, usar semáforos 
+
+Cuento 3: Las chavas cachan al novio infiel 
+Todas lo citan para comer a la misma hora y en el mismo lugar para agredirlo.
+Están sentadas todas en una mesa, cada una con sus guantes, pero necesitan ayuda de la que
+está a su lado para ponerselos, ¿cómo deben organizarse para poder agredirlo todas? Al menos una vez
+cada una 
+
+Usar la solución de los filósofos modificada (la del examen)
