@@ -1,4 +1,5 @@
 package Filosofos;
+import java.lang.Thread;
 
 /**
  * Clase que simula el problema de los 5 filosofos comiendo
@@ -10,15 +11,17 @@ public abstract class Filosofos implements Runnable {
     protected Tenedor tenedorL;
     protected Tenedor tenedorD;
 
-
+    public Filosofos(int ID) {
+        this.ID = ID;
+        comido = 0;
+    }
 
     @Override
     public void run() {
         try{
             for (int i = 0; i < 500; ++i){
                 pensar();
-                entrarALaMesa();
-                comido = 0;
+                entrarALaMesa();                
             }
         }catch(Exception e){}
         
@@ -30,6 +33,13 @@ public abstract class Filosofos implements Runnable {
      * @throws InterruptedException
      */
     public void entrarALaMesa() throws InterruptedException{
+        try {
+            eat();
+            this.tenedorD.soltar();
+            this.tenedorL.soltar();
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
         
     }
 
@@ -39,7 +49,7 @@ public abstract class Filosofos implements Runnable {
      */
     public void pensar() throws InterruptedException{
         try{
-            Thread.currentThread().sleep(getRandomTime());
+            Thread.currentThread().sleep(this.getRandomTime());
         }catch(InterruptedException e){
         }
     }
@@ -50,7 +60,20 @@ public abstract class Filosofos implements Runnable {
      * @throws InterruptedException
      */
     public void eat() throws InterruptedException{
-
+        try {
+            // int id = Integer.valueOf(Thread.currentThread().getName());
+            if (this.ID ==0){
+                this.tenedorL.tomar();
+                this.tenedorD.tomar();
+            } else {
+                this.tenedorD.tomar();
+                this.tenedorL.tomar();
+            }
+            Thread.currentThread().sleep(this.getRandomTime());
+            comido++;
+        } catch (Exception e) {
+            System.out.println("Lo siento, no pude comer :(")
+        }
     }
 
     /**

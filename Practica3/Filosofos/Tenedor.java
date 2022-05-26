@@ -4,12 +4,6 @@ package Filosofos;
  * Interfaz que simula un tenedor
  */
 public interface Tenedor {
-
-    /**
-     * MEtodo que nos dice si puedo tomar el tenedor
-     * @return si puedo o no tomar el tenedor
-     */
-    public boolean puedoTomarlo();
     
     /**
      * Metodo que nos sirve para tomar un tenedor

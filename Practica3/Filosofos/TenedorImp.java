@@ -4,41 +4,33 @@ import Candados.PetersonLock;
 
 public class TenedorImp implements Tenedor {
     private int id;
-    private volatile boolean tomado;
-    private volatile int vecesTomado;
+    private volatile int tomado;
     static final Lock candado = new PetersonLock();
 
     public TenedorImp(int id){
         this.id = id;
-        this.tomado = false;
-        this.vecesTomado = 0;
-    }
-
-    public boolean puedoTomarlo() {
-        return tomado;
+        this.tomado = 0;
     }
 
     @Override
     public void tomar() {
-        this.tomado = true;
         candado.lock();
-        this.vecesTomado++;
+        this.tomado++;
     }
 
     @Override
     public void soltar() {
         candado.unlock();
-        this.tomado = false;
     }
 
     @Override
     public int getId() {
-        return id;
+        return this.id;
     }
 
     @Override
     public int getVecesTomado() {
-        return vecesTomado;
+        return this.tomado;
     }
     
 }
