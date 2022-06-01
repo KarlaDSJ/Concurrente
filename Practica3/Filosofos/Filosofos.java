@@ -34,7 +34,9 @@ public abstract class Filosofos implements Runnable {
      */
     public void entrarALaMesa() throws InterruptedException{
         try {
+            // comemos
             eat();
+            // soltamos tenedores
             this.tenedorD.soltar();
             this.tenedorL.soltar();
         } catch (Exception e) {
@@ -61,18 +63,22 @@ public abstract class Filosofos implements Runnable {
      */
     public void eat() throws InterruptedException{
         try {
-            // int id = Integer.valueOf(Thread.currentThread().getName());
+            // Si ya me toca comer
             if (this.ID ==0){
+                // tomo los dos tenedores
                 this.tenedorL.tomar();
                 this.tenedorD.tomar();
             } else {
-                this.tenedorD.tomar();
-                this.tenedorL.tomar();
+                // suelto ambos tenedores
+                this.tenedorD.soltar();
+                this.tenedorL.soltar();
             }
+            // me voy a comer
             Thread.currentThread().sleep(this.getRandomTime());
+            // aumento el contador
             comido++;
         } catch (Exception e) {
-            System.out.println("Lo siento, no pude comer :(")
+            System.out.println("Lo siento, no pude comer :(");
         }
     }
 

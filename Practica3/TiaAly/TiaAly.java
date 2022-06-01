@@ -8,7 +8,7 @@ public class TiaAly {
         List<Platillo> platillo = new ArrayList<Platillo>();
         platillo.add(new Platillo("Torta",1));
         platillo.add(new Platillo("Tacos Dorados",2));
-        platillo.add(new Platillo("Enchiladas de Yakult",3));
+        platillo.add(new Platillo("Enchiladas suizas",3));
 
         Queue<Cliente> fila = new LinkedList<>();
         fila.add(new Cliente("Miguel",platillo));
